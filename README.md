@@ -1,5 +1,7 @@
 # Max The Elf Mod
 
+<img width="838" height="383" alt="maxtheelfmod" src="https://github.com/user-attachments/assets/6baa1f5d-508c-46ef-8367-774fa4c3bf15" />
+
 install guide (for example my first bepinex mod GiveMeMuchMoney BepInEx Version)
 
 extract all to the root of the game
