@@ -6,6 +6,7 @@ using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using UnityEngine;
 
 namespace MaxTheElfMod
 {
@@ -15,9 +16,13 @@ namespace MaxTheElfMod
         internal static new ManualLogSource Logger;
         private static ConfigEntry<bool> configSkipGameOverPlay = null;
         private static ConfigEntry<bool> configResetCorruptionLevelAfterFuck = null;
+        private static ConfigEntry<KeyCode> configSkipGameOverPlayKey = null;
+        private static ConfigEntry<KeyCode> configResetCorruptionLevelAfterFuckKey = null;
 
         private static bool skipGameOverPlay = false;
         private static bool resetCorruptionLevelAfterFuck = false;
+        private static KeyCode skipGameOverPlayKey = KeyCode.F8;
+        private static KeyCode resetCorruptionLevelAfterFuckKey = KeyCode.F9;
 
         public MaxTheElfMod()
         {
@@ -45,8 +50,21 @@ namespace MaxTheElfMod
                                               true,
                                              "Reset Corruption Level After Fuck ? default = true also yes, false = no");
 
+            configSkipGameOverPlayKey = Config.Bind(pluginKey,
+                                             "SkipGameOverPlayKeyCode",
+                                              KeyCode.F8,
+                                             "Toggle Skip GameOver Play, default F8");
+
+            configResetCorruptionLevelAfterFuckKey = Config.Bind(pluginKey,
+                                             "ResetCorruptionLevelAfterFuckKeyCode",
+                                              KeyCode.F9,
+                                             "Toggle Reset Corruption Level After Fuck, default F9");
+
             skipGameOverPlay = configSkipGameOverPlay.Value;
             resetCorruptionLevelAfterFuck = configResetCorruptionLevelAfterFuck.Value;
+            skipGameOverPlayKey = configSkipGameOverPlayKey.Value;
+            resetCorruptionLevelAfterFuckKey = configSkipGameOverPlayKey.Value;
+
 
             PatchAllHarmonyMethods();
 
@@ -54,6 +72,38 @@ namespace MaxTheElfMod
         }
         private void OnGUI()
         {
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyUp(skipGameOverPlayKey))
+            {
+                skipGameOverPlay = !skipGameOverPlay;
+                configSkipGameOverPlay.Value = skipGameOverPlay;
+
+                if (skipGameOverPlay)
+                {
+                    Logger.LogInfo("skipGameOverPlay: on");
+                } else
+                {
+                    Logger.LogInfo("skipGameOverPlay: off");
+                }
+            }
+
+            if (Input.GetKeyUp(resetCorruptionLevelAfterFuckKey))
+            {
+                resetCorruptionLevelAfterFuck = !resetCorruptionLevelAfterFuck;
+                configResetCorruptionLevelAfterFuck.Value = resetCorruptionLevelAfterFuck;
+
+                if (resetCorruptionLevelAfterFuck)
+                {
+                    Logger.LogInfo("resetCorruptionLevelAfterFuck: on");
+                }
+                else
+                {
+                    Logger.LogInfo("resetCorruptionLevelAfterFuck: off");
+                }
+            }
         }
 
         public static bool GameOver(object __instance) {
