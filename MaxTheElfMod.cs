@@ -5,7 +5,9 @@ using BepInEx.Unity.Mono;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
+using System.EnterpriseServices;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
@@ -397,7 +399,22 @@ namespace MaxTheElfMod
 
         private static Dictionary<string, AudioSource> audioSources = new Dictionary<string, AudioSource>();
         private static Dictionary<string, AudioSourceHolder> audioSourcesHolder = new Dictionary<string, AudioSourceHolder>();
+        private static List<AudioSource> auds = new List<AudioSource>();
+        
+        private static void addAudioSource(AudioSource audioSource)
+        {
+            if (audioSource == null)
+            {
+                return; 
+            }
 
+            if (auds.Contains(audioSource))
+            {
+                return;
+            }
+
+            auds.Add(audioSource);  
+        }
 
         public static void StartAndroidGalleryButton(AndroidGalleryButtonHandler __instance)
         {
@@ -405,6 +422,7 @@ namespace MaxTheElfMod
             {
                 AudioSource aud = Traverse.Create(__instance).Field("aud").GetValue<AudioSource>();
                 audioSources.Add("AndroidGalleryButton", aud);
+                addAudioSource(aud);
             }
             catch { }
         }
@@ -415,6 +433,7 @@ namespace MaxTheElfMod
             {
                 AudioSource aud = Traverse.Create(__instance).Field("aud").GetValue<AudioSource>();
                 audioSources.Add("Angel", aud);
+                addAudioSource(aud);
             }
             catch { }
         }
@@ -425,6 +444,7 @@ namespace MaxTheElfMod
             {
                 AudioSource aud = Traverse.Create(__instance).Field("aud").GetValue<AudioSource>();
                 audioSources.Add("BossFae", aud);
+                addAudioSource(aud);
             }
             catch { }
         }
@@ -435,6 +455,7 @@ namespace MaxTheElfMod
             {
                 AudioSource aud = Traverse.Create(__instance).Field("rumble").GetValue<AudioSource>();
                 audioSources.Add("Dee", aud);
+                addAudioSource(aud);
             }
             catch { }
         }
@@ -445,6 +466,7 @@ namespace MaxTheElfMod
             {
                 AudioSource aud = Traverse.Create(__instance).Field("SFX").GetValue<AudioSource>();
                 audioSources.Add("Eggy", aud);
+                addAudioSource(aud);
             }
             catch { }
         }
@@ -455,6 +477,7 @@ namespace MaxTheElfMod
             {
                 AudioSource aud = Traverse.Create(__instance).Field("m_audioSource").GetValue<AudioSource>();
                 audioSources.Add("Enemy", aud);
+                addAudioSource(aud);
             }
             catch { }
         }
@@ -464,6 +487,7 @@ namespace MaxTheElfMod
             {
                 AudioSource aud = Traverse.Create(__instance).Field("HitSound").GetValue<AudioSource>();
                 audioSources.Add("Fifi", aud);
+                addAudioSource(aud);
             }
             catch { }
         }
@@ -473,6 +497,7 @@ namespace MaxTheElfMod
             {
                 AudioSource aud = Traverse.Create(__instance).Field("aud").GetValue<AudioSource>();
                 audioSources.Add("GalleryButton", aud);
+                addAudioSource(aud);
             }
             catch { }
         }
@@ -483,6 +508,7 @@ namespace MaxTheElfMod
             {
                 AudioSource aud = Traverse.Create(__instance).Field("aud").GetValue<AudioSource>();
                 audioSources.Add("Leslie", aud);
+                addAudioSource(aud);
             }
             catch { }
         }
@@ -494,6 +520,8 @@ namespace MaxTheElfMod
                 AudioSource aud = Traverse.Create(__instance).Field("CastSound").GetValue<AudioSource>();
                 audioSources.Add("MallaryCastSound", aud);
                 audioSources.Add("Mallary", __instance.gameObject.GetComponent<AudioSource>());
+                addAudioSource(aud);
+                addAudioSource(__instance.gameObject.GetComponent<AudioSource>());
             }
             catch { }
         }
@@ -504,6 +532,9 @@ namespace MaxTheElfMod
                 audioSources.Add("MaxVoice", __instance.Voice);
                 audioSources.Add("MaxSFX", __instance.SFX);
                 audioSources.Add("MaxSFXB", __instance.SFXB);
+                addAudioSource(__instance.Voice);
+                addAudioSource(__instance.SFX);
+                addAudioSource(__instance.SFXB);
             }
             catch { }
         }
@@ -514,6 +545,7 @@ namespace MaxTheElfMod
             {
                 AudioSource aud = Traverse.Create(__instance).Field("aud").GetValue<AudioSource>();
                 audioSources.Add("SlimeTower", aud);
+                addAudioSource(aud);
             }
             catch { }
         }
@@ -522,6 +554,7 @@ namespace MaxTheElfMod
             try
             {
                 audioSources.Add("SphinxRiddle", __instance.AS);
+                addAudioSource(__instance.AS);
             }
             catch { }
         }
@@ -530,6 +563,7 @@ namespace MaxTheElfMod
             try
             {
                 AudioSource aud = Traverse.Create(__instance).Field("aud").GetValue<AudioSource>();
+                addAudioSource(aud);
                 audioSources.Add("Succuvick", aud);
             }
             catch { }
@@ -540,6 +574,7 @@ namespace MaxTheElfMod
             try
             {
                 AudioSource aud = Traverse.Create(__instance).Field("TifaSFX").GetValue<AudioSource>();
+                addAudioSource(aud);
                 audioSources.Add("Tifa", aud);
             }
             catch { }
@@ -550,6 +585,7 @@ namespace MaxTheElfMod
             try
             {
                 audioSources.Add("Vine", __instance.rumble);
+                addAudioSource(__instance.rumble);
             }
             catch { }
         }
@@ -558,6 +594,7 @@ namespace MaxTheElfMod
             try
             {
                 audioSources.Add("Lv3IntroScene", __instance.AS);
+                addAudioSource(__instance.AS);
             }
             catch { }
         }
@@ -566,6 +603,7 @@ namespace MaxTheElfMod
             try
             {
                 AudioSource component = __instance.GetComponent<AudioSource>();
+                addAudioSource(component);
                 audioSources.Add("Lv4BossIntroScene", component);
             }
             catch { }
@@ -576,6 +614,7 @@ namespace MaxTheElfMod
             try
             {
                 audioSources.Add("Lv4BossIntroScene", __instance.AS);
+                addAudioSource(__instance.AS);
             }
             catch { }
         }
@@ -584,6 +623,7 @@ namespace MaxTheElfMod
             try
             {
                 AudioSource component = __instance.GetComponent<AudioSource>();
+                addAudioSource(component);
                 audioSources.Add("Lv4BossOutroCallbacks", component);
             }
             catch { }
@@ -593,6 +633,7 @@ namespace MaxTheElfMod
             try
             {
                 audioSources.Add("Lv4BossOutroScene", __instance.AS);
+                addAudioSource(__instance.AS);
             }
             catch { }
         }
@@ -602,6 +643,7 @@ namespace MaxTheElfMod
             try
             {
                 audioSources.Add("Lv4IntroScene", __instance.AS);
+                addAudioSource(__instance.AS);
             }
             catch { }
         }
@@ -610,6 +652,7 @@ namespace MaxTheElfMod
             try
             {
                 AudioSource component = __instance.GetComponent<AudioSource>();
+                addAudioSource(component);
                 audioSources.Add("Lv5BossIntroCallbacks", component);
             }
             catch { }
@@ -619,6 +662,7 @@ namespace MaxTheElfMod
             try
             {
                 audioSources.Add("Lv5BossIntroScene", __instance.AS);
+                addAudioSource(__instance.AS);
             }
             catch { }
         }
@@ -627,6 +671,7 @@ namespace MaxTheElfMod
             try
             {
                 AudioSource component = __instance.GetComponent<AudioSource>();
+                addAudioSource(component);
                 audioSources.Add("Lv5BossOutroCallbacks", component);
             }
             catch { }
@@ -636,6 +681,7 @@ namespace MaxTheElfMod
             try
             {
                 audioSources.Add("Lv5BossOutroScene", __instance.AS);
+                addAudioSource(__instance.AS);
             }
             catch { }
         }
@@ -731,8 +777,132 @@ namespace MaxTheElfMod
                 Logger.LogError(e.ToString());
             }
         }
+
+        public static bool PlayOneShotHelper(AudioSource __instance, AudioClip clip, float volumeScale)
+        {
+            try
+            {
+                AudioSource _this = __instance;
+                if (_this != null)
+                {
+                    if (auds.Contains(_this))
+                    {
+                        return true;
+                    }
+
+                    if (_this.name != null)
+                    {
+                        int ix = 0;
+                        string namex = _this.name;
+
+                        while (audioSources.ContainsKey(namex))
+                        {
+                            namex += ix.ToString();
+                            ix++;
+                        }
+
+                        auds.Add(_this);
+                        audioSources.Add(namex, _this);
+
+                        return true;
+                    }
+
+                    string name = "unknown";
+
+                    int i = 0;
+
+                    while (audioSources.ContainsKey(name))
+                    {
+                        name += i.ToString();
+                        i++;
+                    }
+
+                    auds.Add(_this);
+                    audioSources.Add(name, _this);
+
+                    Logger.LogInfo("Add Audio source");
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+            }
+            return true;
+        }
+
+        public static bool PlayHelper(AudioSource __instance, ulong delay)
+        {
+            try
+            {
+                AudioSource _this = __instance;
+                if (_this != null)
+                {
+                    if (auds.Contains(_this))
+                    {
+                        return true;
+                    }
+
+                    if (_this.name != null)
+                    {
+                        int ix = 0;
+                        string namex = _this.name;
+
+                        while (audioSources.ContainsKey(namex))
+                        {
+                            namex += ix.ToString();
+                            ix++;
+                        }
+
+                        auds.Add(_this);
+                        audioSources.Add(namex, _this);
+
+                        return true;
+                    }
+
+                    string name = "unknown";
+
+                    int i = 0;
+
+                    while (audioSources.ContainsKey(name))
+                    {
+                        name += i.ToString();
+                        i++;
+                    }
+
+                    auds.Add(_this);
+                    audioSources.Add(name, _this);
+
+                    Logger.LogInfo("Add Audio source");
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+            }
+            return true;
+        }
         public static void audioPatches()
         {
+            try
+            {
+                PatchHarmonyMethodUnity(typeof(AudioSource), "Play", "PlayHelper", true, false, new Type[] { typeof(ulong) });
+            } catch (Exception ex) {
+                Logger.LogError(ex.ToString());
+            }
+
+            try
+            {
+                PatchHarmonyMethodUnity(typeof(AudioSource), "PlayOneShotHelper", "PlayOneShotHelper", true, false, new Type[] { typeof(AudioClip), typeof(float) });
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+            }
+
             bossAudioBatches();
             try
             {
