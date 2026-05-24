@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace MaxTheElfMod
 {
@@ -16,13 +17,13 @@ namespace MaxTheElfMod
         internal static new ManualLogSource Logger;
         private static ConfigEntry<bool> configSkipGameOverPlay = null;
         private static ConfigEntry<bool> configResetCorruptionLevelAfterFuck = null;
-        private static ConfigEntry<KeyCode> configSkipGameOverPlayKey = null;
-        private static ConfigEntry<KeyCode> configResetCorruptionLevelAfterFuckKey = null;
+        private static ConfigEntry<Key> configSkipGameOverPlayKey = null;
+        private static ConfigEntry<Key> configResetCorruptionLevelAfterFuckKey = null;
 
         private static bool skipGameOverPlay = false;
         private static bool resetCorruptionLevelAfterFuck = false;
-        private static KeyCode skipGameOverPlayKey = KeyCode.F8;
-        private static KeyCode resetCorruptionLevelAfterFuckKey = KeyCode.F9;
+        private static Key skipGameOverPlayKey = Key.F8;
+        private static Key resetCorruptionLevelAfterFuckKey = Key.F9;
 
         public MaxTheElfMod()
         {
@@ -52,12 +53,12 @@ namespace MaxTheElfMod
 
             configSkipGameOverPlayKey = Config.Bind(pluginKey,
                                              "SkipGameOverPlayKeyCode",
-                                              KeyCode.F8,
+                                              Key.F8,
                                              "Toggle Skip GameOver Play, default F8");
 
             configResetCorruptionLevelAfterFuckKey = Config.Bind(pluginKey,
                                              "ResetCorruptionLevelAfterFuckKeyCode",
-                                              KeyCode.F9,
+                                              Key.F9,
                                              "Toggle Reset Corruption Level After Fuck, default F9");
 
             skipGameOverPlay = configSkipGameOverPlay.Value;
@@ -65,6 +66,17 @@ namespace MaxTheElfMod
             skipGameOverPlayKey = configSkipGameOverPlayKey.Value;
             resetCorruptionLevelAfterFuckKey = configSkipGameOverPlayKey.Value;
 
+            if (skipGameOverPlayKey == Key.None)
+            {
+                skipGameOverPlayKey = Key.F8;
+                configSkipGameOverPlayKey.Value = skipGameOverPlayKey;
+            }
+
+            if (resetCorruptionLevelAfterFuckKey == Key.None)
+            {
+                resetCorruptionLevelAfterFuckKey = Key.F9;
+                configResetCorruptionLevelAfterFuckKey.Value = resetCorruptionLevelAfterFuckKey;
+            }
 
             PatchAllHarmonyMethods();
 
@@ -76,7 +88,12 @@ namespace MaxTheElfMod
 
         private void Update()
         {
-            if (Input.GetKeyUp(skipGameOverPlayKey))
+            if (Keyboard.current == null)
+            {
+                return;
+            }
+
+            if(Keyboard.current[skipGameOverPlayKey].wasReleasedThisFrame)
             {
                 skipGameOverPlay = !skipGameOverPlay;
                 configSkipGameOverPlay.Value = skipGameOverPlay;
@@ -90,7 +107,7 @@ namespace MaxTheElfMod
                 }
             }
 
-            if (Input.GetKeyUp(resetCorruptionLevelAfterFuckKey))
+            if (Keyboard.current[resetCorruptionLevelAfterFuckKey].wasReleasedThisFrame)
             {
                 resetCorruptionLevelAfterFuck = !resetCorruptionLevelAfterFuck;
                 configResetCorruptionLevelAfterFuck.Value = resetCorruptionLevelAfterFuck;
