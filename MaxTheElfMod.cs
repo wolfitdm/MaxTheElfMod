@@ -553,9 +553,187 @@ namespace MaxTheElfMod
             }
             catch { }
         }
+        public static void StartLv3IntroScene(Lv3IntroScene __instance)
+        {
+            try
+            {
+                audioSources.Add("Lv3IntroScene", __instance.AS);
+            }
+            catch { }
+        }
+        public static void StartLv4BossIntroCallbacks(Lv4BossIntroCallbacks __instance)
+        {
+            try
+            {
+                AudioSource component = __instance.GetComponent<AudioSource>();
+                audioSources.Add("Lv4BossIntroScene", component);
+            }
+            catch { }
+        }
 
+        public static void StartLv4BossIntroScene(Lv4BossIntroScene __instance)
+        {
+            try
+            {
+                audioSources.Add("Lv4BossIntroScene", __instance.AS);
+            }
+            catch { }
+        }
+        public static void StartLv4BossOutroCallbacks(Lv4BossOutroCallbacks __instance)
+        {
+            try
+            {
+                AudioSource component = __instance.GetComponent<AudioSource>();
+                audioSources.Add("Lv4BossOutroCallbacks", component);
+            }
+            catch { }
+        }
+        public static void StartLv4BossOutroScene(Lv4BossOutroScene __instance)
+        {
+            try
+            {
+                audioSources.Add("Lv4BossOutroScene", __instance.AS);
+            }
+            catch { }
+        }
+
+        public static void StartLv4IntroScene(Lv4IntroScene __instance)
+        {
+            try
+            {
+                audioSources.Add("Lv4IntroScene", __instance.AS);
+            }
+            catch { }
+        }
+        public static void StartLv5BossIntroCallbacks(Lv5BossIntroCallbacks __instance)
+        {
+            try
+            {
+                AudioSource component = __instance.GetComponent<AudioSource>();
+                audioSources.Add("Lv5BossIntroCallbacks", component);
+            }
+            catch { }
+        }
+        public static void StartLv5BossIntroScene(Lv5BossIntroScene __instance)
+        {
+            try
+            {
+                audioSources.Add("Lv5BossIntroScene", __instance.AS);
+            }
+            catch { }
+        }
+        public static void StartLv5BossOutroCallbacks(Lv5BossOutroCallbacks __instance)
+        {
+            try
+            {
+                AudioSource component = __instance.GetComponent<AudioSource>();
+                audioSources.Add("Lv5BossOutroCallbacks", component);
+            }
+            catch { }
+        }
+        public static void StartLv5BossOutroScene(Lv5BossOutroScene __instance)
+        {
+            try
+            {
+                audioSources.Add("Lv5BossOutroScene", __instance.AS);
+            }
+            catch { }
+        }
+        public static void bossAudioBatches()
+        {
+            try
+            {
+                PatchHarmonyMethodUnity(typeof(Lv3IntroScene), "Start", "StartLv3IntroScene", false, true);
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e.ToString());
+            }
+
+            try
+            {
+                PatchHarmonyMethodUnity(typeof(Lv4BossIntroCallbacks), "Start", "StartLv4BossIntroCallbacks", false, true);
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e.ToString());
+            }
+
+            try
+            {
+                PatchHarmonyMethodUnity(typeof(Lv4BossIntroScene), "Start", "StartLv4BossIntroScene", false, true);
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e.ToString());
+            }
+
+            try
+            {
+                PatchHarmonyMethodUnity(typeof(Lv4BossOutroCallbacks), "Start", "StartLv4BossOutroCallbacks", false, true);
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e.ToString());
+            }
+
+            try
+            {
+                PatchHarmonyMethodUnity(typeof(Lv4BossOutroScene), "Start", "StartLv4BossOutroScene", false, true);
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e.ToString());
+            }
+
+            try
+            {
+                PatchHarmonyMethodUnity(typeof(Lv4IntroScene), "Start", "StartLv4IntroScene", false, true);
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e.ToString());
+            }
+
+            try
+            {
+                PatchHarmonyMethodUnity(typeof(Lv5BossIntroCallbacks), "Start", "StartLv5BossIntroCallbacks", false, true);
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e.ToString());
+            }
+
+            try
+            {
+                PatchHarmonyMethodUnity(typeof(Lv5BossIntroScene), "Start", "StartLv5BossIntroScene", false, true);
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e.ToString());
+            }
+
+            try
+            {
+                PatchHarmonyMethodUnity(typeof(Lv5BossOutroCallbacks), "Start", "StartLv5BossOutroCallbacks", false, true);
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e.ToString());
+            }
+
+            try
+            {
+                PatchHarmonyMethodUnity(typeof(Lv5BossOutroScene), "Start", "StartLv5BossOutroScene", false, true);
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e.ToString());
+            }
+        }
         public static void audioPatches()
         {
+            bossAudioBatches();
             try
             {
                 PatchHarmonyMethodUnity(typeof(AndroidGalleryButtonHandler), "Start", "StartAndroidGalleryButton", false, true);
